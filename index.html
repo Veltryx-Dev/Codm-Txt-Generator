@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CODM TXT</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #111;
+    color: #e8e8e8;
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+  a { color: #f0a040; }
+
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+  }
+
+  /* header */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo {
+    width: 36px;
+    height: 36px;
+    background: #e8942a;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 16px;
+    color: #111;
+  }
+  .brand strong {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .brand span {
+    display: block;
+    font-size: 12px;
+    color: #888;
+    font-weight: 400;
+  }
+  .user {
+    font-size: 13px;
+    color: #aaa;
+  }
+  .user button {
+    margin-left: 10px;
+    background: none;
+    border: 1px solid #444;
+    color: #ccc;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .user button:hover { border-color: #e8942a; color: #e8942a; }
+
+  /* panels */
+  .panel {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 14px;
+  }
+  .panel h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #777;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+
+  /* form */
+  label {
+    display: block;
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 5px;
+  }
+  input[type="text"],
+  input[type="password"],
+  input[type="number"] {
+    width: 100%;
+    background: #111;
+    border: 1px solid #333;
+    color: #eee;
+    padding: 10px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  input:focus {
+    outline: none;
+    border-color: #e8942a;
+  }
+
+  button.primary {
+    background: #e8942a;
+    color: #111;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+  }
+  button.primary:hover { background: #f0a040; }
+  button.primary:disabled { opacity: 0.5; cursor: not-allowed; }
+  button.secondary {
+    background: transparent;
+    color: #ccc;
+    border: 1px solid #444;
+    padding: 9px 14px;
+    border-radius: 5px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  button.secondary:hover { border-color: #666; color: #fff; }
+
+  .row { display: flex; gap: 8px; }
+  .row > * { flex: 1; }
+
+  /* tabs */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    background: #111;
+    padding: 3px;
+    border-radius: 6px;
+  }
+  .tabs button {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #888;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .tabs button.on {
+    background: #e8942a;
+    color: #111;
+  }
+
+  /* stats */
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .stat {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 14px 10px;
+    text-align: center;
+  }
+  .stat b {
+    display: block;
+    font-size: 22px;
+    font-weight: 700;
+    color: #e8942a;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat small {
+    font-size: 11px;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* amount */
+  .amount-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .amount-row input {
+    width: 80px;
+    margin: 0;
+    text-align: center;
+  }
+  .amount-row button {
+    width: 36px;
+    height: 36px;
+    background: #222;
+    border: 1px solid #333;
+    color: #ccc;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .amount-row button:hover { border-color: #e8942a; color: #e8942a; }
+
+  /* output */
+  .out {
+    background: #0d0d0d;
+    border: 1px solid #2a2a2a;
+    border-radius: 6px;
+    margin-top: 12px;
+    display: none;
+  }
+  .out-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    border-bottom: 1px solid #2a2a2a;
+    font-size: 12px;
+    color: #888;
+  }
+  .out-head button {
+    background: none;
+    border: 1px solid #333;
+    color: #aaa;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    cursor: pointer;
+    margin-left: 4px;
+  }
+  .out-head button:hover { color: #e8942a; border-color: #e8942a; }
+  .out-body {
+    padding: 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    max-height: 280px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+    color: #ccc;
+  }
+
+  /* history table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th {
+    text-align: left;
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 6px 8px;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  td {
+    padding: 8px;
+    border-bottom: 1px solid #222;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12px;
+    vertical-align: top;
+  }
+  td.t { color: #666; white-space: nowrap; width: 130px; }
+  td.n { color: #555; width: 28px; }
+
+  .msg { font-size: 13px; margin-top: 10px; min-height: 1.2em; }
+  .ok { color: #4caf70; }
+  .err { color: #e05555; }
+  .warn { color: #e8942a; }
+
+  .server {
+    font-size: 12px;
+    color: #555;
+    margin-bottom: 18px;
+  }
+  .server .live { color: #4caf70; }
+  .server .dead { color: #e05555; }
+
+  .hidden { display: none !important; }
+  .empty { color: #666; font-size: 13px; padding: 12px 0; }
+
+  #toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #222;
+    border: 1px solid #444;
+    color: #eee;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    z-index: 50;
+    transition: transform 0.25s ease;
+    pointer-events: none;
+  }
+  #toast.show { transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 520px) {
+    .stats { grid-template-columns: 1fr; }
+    .row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <div class="logo">G</div>
+      <div>
+        <strong>CODM TXT</strong>
+        <span>shared pool · fetch removes</span>
+      </div>
+    </div>
+    <div class="user hidden" id="userBar">
+      <span id="userName"></span>
+      <button onclick="logout()">logout</button>
+    </div>
+  </header>
+
+  <div class="server">
+    <span id="conn">●</span>
+    <span id="connText"> connecting</span>
+    · txt-loader.onrender.com
+  </div>
+
+  <!-- AUTH -->
+  <div id="authView">
+    <div class="panel">
+      <div class="tabs">
+        <button class="on" id="tabLogin" onclick="switchTab('login')">Login</button>
+        <button id="tabSignup" onclick="switchTab('signup')">Sign up</button>
+      </div>
+
+      <div id="loginForm">
+        <label>Username</label>
+        <input type="text" id="loginUser" autocomplete="username">
+        <label>Password</label>
+        <input type="password" id="loginPass" autocomplete="current-password">
+        <button class="primary" id="loginBtn" onclick="doLogin()">Sign in</button>
+      </div>
+
+      <div id="signupForm" class="hidden">
+        <label>Username</label>
+        <input type="text" id="signupUser" autocomplete="username">
+        <label>Password (min 8)</label>
+        <input type="password" id="signupPass" autocomplete="new-password">
+        <label>Confirm</label>
+        <input type="password" id="signupPass2" autocomplete="new-password">
+        <button class="primary" id="signupBtn" onclick="doSignup()">Create account</button>
+      </div>
+
+      <div class="msg" id="authStatus"></div>
+    </div>
+    <p style="text-align:center;color:#666;font-size:13px;margin-top:8px;">Sign In To Access Codm Txt Generator</p>
+  </div>
+
+  <!-- DASH -->
+  <div id="dashView" class="hidden">
+    <div class="stats">
+      <div class="stat"><b id="statPool">—</b><small>pool</small></div>
+      <div class="stat"><b id="statMine">—</b><small>my fetches</small></div>
+      <div class="stat"><b id="statUsers">—</b><small>users</small></div>
+    </div>
+
+    <div class="panel">
+      <h3>Fetch lines</h3>
+      <div class="amount-row">
+        <button type="button" onclick="step(-1)">−</button>
+        <input type="number" id="amount" value="5" min="1">
+        <button type="button" onclick="step(1)">+</button>
+        <span style="color:#666;font-size:13px;">lines</span>
+      </div>
+      <div class="row">
+        <button class="primary" id="fetchBtn" onclick="doFetch()">Fetch & save</button>
+        <button class="secondary" onclick="refreshStats();loadHistory()">Refresh</button>
+      </div>
+      <div class="msg" id="fetchStatus"></div>
+      <div class="out" id="outputBox">
+        <div class="out-head">
+          <span id="outputLabel">result</span>
+          <span>
+            <button onclick="copyOut()">copy</button>
+            <button onclick="downloadOut()">download</button>
+          </span>
+        </div>
+        <div class="out-body" id="output"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>History</h3>
+      <div id="histWrap"><div class="empty">loading…</div></div>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const BASE = "https://txt-loader.onrender.com";
+const TOKEN_KEY = "codm_txt_token";
+let token = null, username = "", lastLines = [];
+
+function toast(m) {
+  const t = document.getElementById("toast");
+  t.textContent = m; t.classList.add("show");
+  clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("show"), 2200);
+}
+function step(d) {
+  const el = document.getElementById("amount");
+  el.value = Math.max(1, (parseInt(el.value) || 1) + d);
+}
+function saveToken(d) {
+  localStorage.setItem(TOKEN_KEY, JSON.stringify({ token: d.token, username: d.username || "" }));
+}
+function loadToken() {
+  try { const d = JSON.parse(localStorage.getItem(TOKEN_KEY)); if (d && d.token) return d; } catch {}
+  return null;
+}
+function clearToken() { localStorage.removeItem(TOKEN_KEY); }
+
+async function api(method, path, body) {
+  const opts = { method, headers: { Accept: "application/json" } };
+  if (token) opts.headers.Authorization = "Bearer " + token;
+  if (body !== undefined) { opts.headers["Content-Type"] = "application/json"; opts.body = JSON.stringify(body); }
+  const res = await fetch(BASE + path, opts);
+  let data = null; try { data = await res.json(); } catch {}
+  if (!res.ok) throw new Error((data && (data.error || data.message)) || ("HTTP " + res.status));
+  return data;
+}
+
+function switchTab(w) {
+  document.getElementById("tabLogin").classList.toggle("on", w === "login");
+  document.getElementById("tabSignup").classList.toggle("on", w === "signup");
+  document.getElementById("loginForm").classList.toggle("hidden", w !== "login");
+  document.getElementById("signupForm").classList.toggle("hidden", w !== "signup");
+  document.getElementById("authStatus").textContent = "";
+}
+
+async function doLogin() {
+  const u = document.getElementById("loginUser").value.trim().toLowerCase();
+  const p = document.getElementById("loginPass").value;
+  const st = document.getElementById("authStatus");
+  if (!u || !p) { st.innerHTML = '<span class="err">need username & password</span>'; return; }
+  st.textContent = "signing in…";
+  document.getElementById("loginBtn").disabled = true;
+  try {
+    const d = await api("POST", "/api/login", { username: u, password: p });
+    if (!d.ok || !d.token) throw new Error(d.error || "login failed");
+    token = d.token; username = d.username || u; saveToken(d); enterDash(); toast("welcome " + username);
+  } catch (e) { st.innerHTML = '<span class="err">' + e.message + '</span>'; }
+  finally { document.getElementById("loginBtn").disabled = false; }
+}
+
+async function doSignup() {
+  const u = document.getElementById("signupUser").value.trim().toLowerCase();
+  const p = document.getElementById("signupPass").value;
+  const p2 = document.getElementById("signupPass2").value;
+  const st = document.getElementById("authStatus");
+  if (!u) { st.innerHTML = '<span class="err">username required</span>'; return; }
+  if (p.length < 8) { st.innerHTML = '<span class="err">password min 8</span>'; return; }
+  if (p !== p2) { st.innerHTML = '<span class="err">passwords dont match</span>'; return; }
+  st.textContent = "creating…";
+  document.getElementById("signupBtn").disabled = true;
+  try {
+    const d = await api("POST", "/api/signup", { username: u, password: p });
+    if (!d.ok || !d.token) throw new Error(d.error || "signup failed");
+    token = d.token; username = d.username || u; saveToken(d); enterDash(); toast("account created");
+  } catch (e) { st.innerHTML = '<span class="err">' + e.message + '</span>'; }
+  finally { document.getElementById("signupBtn").disabled = false; }
+}
+
+function logout() {
+  clearToken(); token = null; username = "";
+  document.getElementById("authView").classList.remove("hidden");
+  document.getElementById("dashView").classList.add("hidden");
+  document.getElementById("userBar").classList.add("hidden");
+  toast("logged out");
+}
+
+function enterDash() {
+  document.getElementById("authView").classList.add("hidden");
+  document.getElementById("dashView").classList.remove("hidden");
+  document.getElementById("userBar").classList.remove("hidden");
+  document.getElementById("userName").textContent = username;
+  refreshStats(); loadHistory();
+}
+
+async function refreshStats() {
+  try {
+    const [c, s] = await Promise.all([
+      api("GET", "/api/count").catch(() => null),
+      api("GET", "/api/stats").catch(() => null)
+    ]);
+    if (c && typeof c.count === "number") document.getElementById("statPool").textContent = c.count.toLocaleString();
+    if (s) {
+      if (typeof s.my_fetched === "number") document.getElementById("statMine").textContent = s.my_fetched.toLocaleString();
+      if (typeof s.total_users === "number") document.getElementById("statUsers").textContent = s.total_users.toLocaleString();
+      if (typeof s.total_lines === "number") document.getElementById("statPool").textContent = s.total_lines.toLocaleString();
+    }
+    setConn(true);
+  } catch { setConn(false); }
+}
+
+async function loadHistory() {
+  const w = document.getElementById("histWrap");
+  try {
+    const d = await api("GET", "/api/fetched?limit=40");
+    const lines = d.lines || [], total = d.total || 0;
+    if (!lines.length) { w.innerHTML = '<div class="empty">no history yet</div>'; return; }
+    let h = '<table><thead><tr><th>#</th><th>when</th><th>line</th></tr></thead><tbody>';
+    lines.forEach((item, i) => {
+      const when = (item.fetched_at || "").slice(0, 19).replace("T", " ") || "—";
+      const text = String(item.text || "").replace(/&/g, "&amp;").replace(/</g, "&lt;");
+      h += `<tr><td class="n">${i + 1}</td><td class="t">${when}</td><td>${text}</td></tr>`;
+    });
+    h += "</tbody></table>";
+    if (total > lines.length) h += `<div class="empty">showing ${lines.length} of ${total}</div>`;
+    w.innerHTML = h;
+  } catch (e) { w.innerHTML = '<div class="empty err">' + e.message + '</div>'; }
+}
+
+async function doFetch() {
+  const amount = Math.max(1, parseInt(document.getElementById("amount").value) || 1);
+  const st = document.getElementById("fetchStatus");
+  st.textContent = "fetching…";
+  document.getElementById("fetchBtn").disabled = true;
+  try {
+    const d = await api("POST", "/api/fetch", { amount });
+    const lines = d.lines || [];
+    if (!lines.length) {
+      st.innerHTML = '<span class="warn">pool empty</span>';
+      document.getElementById("outputBox").style.display = "none";
+      return;
+    }
+    lastLines = lines;
+    st.innerHTML = '<span class="ok">got ' + lines.length + ' · left ' + (d.remaining ?? "—") + '</span>';
+    document.getElementById("output").textContent = lines.join("\n");
+    document.getElementById("outputLabel").textContent = lines.length + " lines";
+    document.getElementById("outputBox").style.display = "block";
+    toast("fetched " + lines.length);
+    downloadOut();
+    refreshStats();
+    loadHistory();
+  } catch (e) { st.innerHTML = '<span class="err">' + e.message + '</span>'; }
+  finally { document.getElementById("fetchBtn").disabled = false; }
+}
+
+function copyOut() {
+  navigator.clipboard.writeText(lastLines.join("\n")).then(() => toast("copied"));
+}
+function downloadOut() {
+  if (!lastLines.length) return;
+  const blob = new Blob([lastLines.join("\n") + "\n"], { type: "text/plain" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "codm_" + new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-") + ".txt";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function setConn(ok) {
+  document.getElementById("conn").className = ok ? "live" : "dead";
+  document.getElementById("connText").textContent = ok ? " online" : " offline";
+}
+
+async function boot() {
+  const saved = loadToken();
+  if (saved) {
+    token = saved.token;
+    username = saved.username || "user";
+    try {
+      const me = await api("GET", "/api/me");
+      if (me && me.ok) { username = me.username || username; enterDash(); toast("session ok"); return; }
+    } catch { clearToken(); token = null; }
+  }
+  setConn(true);
+}
+boot();
+document.getElementById("loginPass").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
+document.getElementById("signupPass2").addEventListener("keydown", e => { if (e.key === "Enter") doSignup(); });
+</script>
+</body>
+</html>
